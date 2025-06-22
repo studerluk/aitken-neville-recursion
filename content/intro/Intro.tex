@@ -1,0 +1,28 @@
+\section{Introduction}
+
+Bringing a time discrete function, or rather measurements, into a time
+continuous domain is often essential for analysis of time discrete data. To do
+so, one can either approximate or interpolate. While approximation has
+advantages such as being resistant to errors of random nature, interpolation
+brings the advantage of being true to the original data. Unlike an
+approximation, a interpolation can recall each data point with the
+interpolating function.
+
+Again one has a vast variety of interpolation methods at hand, each with their
+pros and cons. One such method is the Newton interpolation, a high order
+polynomial interpolation. These polynomials can be determined fairly
+efficiently using the Aitken-Neville recursion with the divided difference.
+This recursion yields the coefficients needed by a Newton polynomial for a
+given dataset.
+
+As analysis of measurement data is often performed while data is collected,
+the speed of the interpolation algorithm is critical. One way of improving the
+speed of algorithm is the implementation in hardware, as highly specific and
+optimized hardware is usually faster than a generalized software implementation.
+
+\textit{Outline:} Section 2 shows the mathematics behind the Newton
+interplation, the Aitken-Neville recursion, and the divided difference.
+Section 3 shows the chosen approach for the implementation in hardware based
+on the previously discussed mathematics. Section 4 describes the resulting
+hardware implementation while Section 5 discusses the limitations and further
+aspects of the deduced hardware. Section 6 concludes the work.

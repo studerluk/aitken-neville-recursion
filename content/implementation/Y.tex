@@ -1,0 +1,22 @@
+\subsection{Difference}
+
+The calculation of the nominator remains the same as divided difference with
+the Aitken-Neville recursion though the division is no longer performed
+reducing the calculation to a simple subtraction:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ l | l l l l l }
+	\textbf{x}	& \textbf{y}	& $\Delta y$		&			& \\ \hline
+	$1$		& $y_0$		&			&			&			& \\
+	$2$		& $y_1$		& $\Delta_{y_{01}}$	&			&			& \\
+	$3$		& $y_2$		& $\Delta_{y_{12}}$	& $\Delta_{y_{012}}$	&			& \\
+	$4$		& $y_3$		& $\Delta_{y_{23}}$	& $\Delta_{y_{123}}$	& $\Delta_{y_{0123}}$	& \\
+	$5$		& $y_4$		& $\Delta_{y_{34}}$	& $\Delta_{y_{234}}$	& $\Delta_{y_{1234}}$	& $\Delta_{y_{01234}}$ \\
+	$\vdots$	& $\vdots$	&			&			&			& \\
+	\end{tabular}
+	\caption{Reduction of the divided difference in the Aitken-Neville
+		recursion to a difference for normed, equidistant data points.}
+\end{table}
+
+\lstinputlisting[language=python,caption=Python implementation of the calculation scheme]{implementation/y-demo.py}

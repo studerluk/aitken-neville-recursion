@@ -1,0 +1,169 @@
+\section{Methodology of Interpolation\footnote{This section is a summary of the
+	Script \textit{Newton Polynomial Interpolation (Collocation)} of the
+	Master lecture \textit{Numerical Analysis}}}
+
+\subsection{The collocation problem}
+There exists a vast variety of possible interpolation methods. One such method
+is through collocation with a high-order polynomial, such as:
+
+\begin{align}
+	y(x) &= p(x) = c_0 + c_1 x^1 + c_2 x^2 + \dots
+		+ c_{m-1} x^{m-1} + c_m x^m
+			&(c_0, c_1, \dots c_m \in \mathbb{R}) \\
+	\Rightarrow y(x_k) &= p(x_k) = y_k &(k = 0,1,2,3,\dots,n)
+\end{align}
+
+\textit{\textbf{Note:} The degree $m$ should be minimal, but the collocation
+	conditions must be met.}
+
+\begin{defn}
+	Collocation: \textit{A single curve passing through all corresponding
+		measurements.}
+\end{defn}
+
+A unique set of coefficients $c_0, c_1, c_2, \dots, c_m$ can be found using
+elementary linear algebra if $m=n$. Though, this is proofs to be a very
+inefficient method. Furthermore, this method is subject to significant numeric
+instabilities.
+
+
+\subsection{Aitken-Neville recursion}
+An alternative method for finding the coefficients to the interpolating
+polynomial is the Aitken-Neville recursion. Hereby the data is partitioned.
+The \textit{global} polynomial terms are then determined using the relations
+between different \textit{parial} polynomials.
+
+\begin{defn}
+	Aitken-Neville recursion: \textit{Finding the global polynomial through
+		repetitive combination of ever smaller, partial polynomials.}
+\end{defn}
+
+This recursive algorithm can be represented in a tabular fashion.
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ r | l l l l l }
+		$x_0$	& $y_0 = p_0$	&		&		&		& \\
+		$x_1$	& $y_1 = p_1$	& $p_{01}$	&		&		& \\
+		$x_2$	& $y_2 = p_2$	& $p_{12}$	& $p_{012}$	&		& \\
+		$x_3$	& $y_3 = p_3$	& $p_{23}$	& $p_{123}$	& $p_{0123}$	& \\
+		$x_4$	& $y_4 = p_4$	& $p_{34}$	& $p_{234}$	& $p_{1234}$	& $p_{01234} = p_4(x)$ \\
+		$\vdots$ & $\vdots$	&		&		&		& \\
+	\end{tabular}
+	\caption{Visual representation of Aitken-Neville recursion: $p_{01}$ can
+		be determined with $p_0$ and $p_1$, $p_{12}$ can be determined
+		with $p_1$ and $p_2$. $p_{012}$ can then be determined with
+		$p_{01}$ and $p_{12}$ and so forth.}
+\end{table}
+
+
+\subsection{Newton basis polynomials}
+Using the Newton basis polynomials instead of the powers of $1, x^1, x^2, x^3,
+\dots, x^m$ further increases the efficiency of the computational scheme for
+resolving the collocation problem as it leads to a lower-triangular form of
+the system of equations produced by polynomial interpolation.
+
+The Newton basis polynomials are defined as such:
+\begin{figure}[H]
+	\centering
+	\renewcommand{\figurename}{Equations}
+	\begin{align*}
+		\Pi_0(x) &= 1 \\
+		\Pi_1(x) &= (x - x_0) \\
+		\Pi_2(x) &= (x - x_0)(x - x_1) \\
+		\Pi_3(x) &= (x - x_0)(x - x_1)(x - x_2) \\
+		\Pi_4(x) &= (x - x_0)(x - x_1)(x - x_2)(x - x_3) \\
+		\vdots \\
+		\Pi_k &= (x - x_0)(x - x_1)(x - x_2)(x - x_3) \dots (x - x_{k-1}) \\
+		\vdots \\
+		\Pi_n &= (x - x_0)(x - x_1)(x - x_2)(x - x_3) \dots (x - x_{n-1})
+	\end{align*}
+	\caption{Newton basis polynomials for
+		$\Pi_k(x) \quad (k = 0,1,2,\dots,n)$}
+\end{figure}
+
+
+Using the Newton basis polynomials for the collocation problem reduces the
+system of equations to a single polynomial:
+\begin{figure}[H]
+	\centering
+	\renewcommand{\figurename}{Equations}
+	\begin{align}
+		p(x) &= a_0 \Pi_0(x) + a_1 \Pi_1(x) + a_2 \Pi_2(x) + a_3 \Pi_3(x)
+			+ \dots + a_m \Pi_m(x)
+	\end{align}
+	\caption{Resulting Newton polynomial to the degree $m$}
+\end{figure}
+
+Using more measurements for the collocation problem results in an increase of
+the degree of the Newton polynomial:
+\begin{figure}[H]
+	\centering
+	\renewcommand{\figurename}{Equations}
+	\begin{align*}
+		y_0 = p(x) &= a_0 \\
+		y_1 = p(x) &= a_0 + a_1 \Pi_1(x) \\
+		y_2 = p(x) &= a_0 + a_1 \Pi_1(x) + a_2 \Pi_2(x) \\
+		\vdots \\
+		y_k = p(x) &= a_0 + a_1 \Pi_1(x) + a_2 \Pi_2(x) + \dots + a_k \Pi_k(x) \\
+		\vdots \\
+		y_n = p(x) &= a_0 + a_1 \Pi_1(x) + a_2 \Pi_2(x) + \dots + a_n \Pi_n(x)
+	\end{align*}
+	\caption{Newton polynomials for $y_k(x) \quad (k = 0,1,2,\dots,n)$
+		through application of Aitken-Neville recursion}
+\end{figure}
+
+
+\subsection{Bringing it all together}
+Applying the Aitken-Neville recursion to the Newton polynomial leads to
+following computational scheme. This is also known as the divided difference:
+\begin{align}
+	y(x_0, x_1, \dots, x_k) &= \frac{y(x_1, x_2, \dots, x_k) - y(x_0, x_1, \dots, x_{k-1})}
+		{x_k - x_0} \quad (k = 0,1,2,\dots,n)
+\end{align}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ r | l }
+	$k = 0$ & $y(x_0)$\\
+	$k = 1$ & $\frac{y(x_1) - y(x_0)}{(x_1 - x_0)}$\\
+	$k = 2$ & $\frac{y(x_1, x_2) - y(x_0, x_1)}{(x_2 - x_0)}$\\
+	$k = 3$ & $\frac{y(x_1, x_2, x_3) - y(x_0, x_1, x_2)}{(x_3 - x_0)}$\\
+	\end{tabular}
+	\caption{Divided difference up to order 3}
+\end{table}
+
+\begin{defn}
+	Divided Difference: \textit{Dividing the values of two points by the
+		step size of said points. This is closely related to the
+		derivative.}
+\end{defn}
+
+Following simple example demonstrates the computation of the divided
+difference in tabular form:
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ l | l l l l }
+	x	& y	& $\frac{\Delta y}{\Delta x}$	&		& \\ \hline
+	$0$	& $1$	&			&			& \\
+	$1$	& $1$	& $\frac{1-1}{1-0} = 0$	&			& \\
+	$2$	& $2$	& $\frac{2-1}{2-1} = 1$	& $\frac{1-0}{2-0}$	& \\
+	$4$	& $5$	& $\frac{3}{2}$		& $\frac{1}{6}$		& $\frac{-1}{12}$ \\
+	\end{tabular}
+	\caption{Example for determining the Newton coefficients through divided
+		difference. The right-most value of each row is the Newton
+		coefficient for given dataset: $a_0 = 1$, $a_1 = 0$, $a_2 =
+		\frac{1}{2}$, $a_3 = \frac{-1}{12}$}
+\end{table}
+
+This example shows how the computation of the divided difference follows a
+simple recursive algorithm. This is the algorithm, which was implemented in
+hardware.
+
+
+\subsection{Limitations}
+The considerate algorithm is invariant to the order of the data and the time
+deltas between each data point. Meaning the measurement intervals can vary and
+the taken measurements can be fed in random order into the algorithm.
+
+For this implementations these properties are limited: The measurements have
+to be in a time-coherently order and must have a fixed measurement frequency.

@@ -1,0 +1,46 @@
+\section{Considerations}
+
+\subsection{Limitation of dataset size}
+The implemented solution is unable to handle new data points when the
+registers are full. This is due to two reasons:
+
+\begin{itemize}
+	\item The hardware algorithm, especially the parallelized algorithm, is
+		reliant on a given size of its registers, as this also
+		determines the size of the multiplexers and the number of
+		subtraction elements required. It must be noted that a more
+		generalized and sophisticated implementation may be able to
+		handle the arrival of new data points.
+
+	\item Due to the quadratic nature of the underling mathematical problem,
+		this solution will always exceed the available storage space.
+		Depending on the situation, a segmentation of the data and
+		therefore partial interpolation might mitigate this limitation.
+\end{itemize}
+
+
+\subsection{Hardware Improvements}
+
+Following hardware optimizations can increase the speed of the implemented
+algorithm:
+
+\begin{itemize}
+	\item \textbf{Signed Digits:} Using the signed digit notation can speed
+		up the this implementation as it heavily relies on
+		\textit{Addition/Subtraction.} The duration of these operations
+		is then no longer proportional to the bus width.\footnote{Israel
+		Koren, Computer Arithmetic Algorithms, 2.3 Signed-Digit Number
+		Systems}
+
+	\item \textbf{Booth's Algorithm:} The little amount of multiplication
+		needed by the algorithm can be speed up using the Booth's
+		algorithm to reduce the number of partial products. This
+		algorithm itself heavily relies on
+		\textit{Addition/Subtraction}. Again, the signed digit notation
+		would be welcomed in this case. Though it must be mentioned that
+		the compatibility of Booth's algorithm with the signed digit
+		notation was not researched. It is unclear that the calculation
+		scheme would still hold for the signed digit notation.
+		\footnote{Israel Koren, Computer Arithmetic Algorithms,
+		6.1 Reducing the Number of Partial Products}
+\end{itemize}

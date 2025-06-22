@@ -1,0 +1,50 @@
+\subsection{Division}
+
+It can then be proven that for equidistant measurements each column of the
+table scheme of the divided difference shares the same denominator. This is
+shown in following table:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ l | l l l l l }
+	\textbf{x}	& \textbf{y}	& $\frac{\Delta y}{\Delta x}$	&			&							& \\ \hline
+	$1$	& $y_0$	&				&					&							& \\
+	$2$	& $y_1$	& $\Delta_{01} \frac{1}{1}$	&					&							& \\
+	$3$	& $y_2$	& $\Delta_{12} \frac{1}{1}$	& $\Delta_{012} \frac{\frac{1}{1}}{2}$	&							& \\
+	$4$	& $y_3$	& $\Delta_{23} \frac{1}{1}$	& $\Delta_{123} \frac{\frac{1}{1}}{2}$	& $\Delta_{0123} \frac{\frac{\frac{1}{1}}{2}}{3}$	& \\
+	$5$	& $y_4$	& $\Delta_{34} \frac{1}{1}$	& $\Delta_{234} \frac{\frac{1}{1}}{2}$	& $\Delta_{1234} \frac{\frac{\frac{1}{1}}{2}}{3}$	& $\Delta_{01234} \frac{\frac{\frac{\frac{1}{1}}{2}}{3}}{4}$ \\
+	$\vdots$& $\vdots$	&			&					&							& \\
+	\end{tabular}
+	\caption{Divided difference with normed, equidistant measurements.}
+\end{table}
+
+This has several advantages:
+\begin{itemize}
+	\item The calculation of the denominator is reduced to a problem with
+		linear proportion.
+	\item These values can be predetermined an stored in a lookup-table.
+\end{itemize}
+
+Due to this property the denominator can be calculated iteratively with
+following calculation scheme:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ c c | c c | c c | c }
+		$Z_1^{prev}$	& input	& $Z_1 - Z_2$	& $P_1^{\text{prev}}$	& $S_1 + S_2$		& $R^{\text{prev}}$	& $P_1 \cdot P_2$ \\
+		$Z_2$		& $Z_1$	& $S_1$		& $S_2$			& $P_1$			& $P_2$			& $R$ \\ \hline
+		1 & 2 & 1 & {\color{gray}0} & 1 & {\color{gray}1} & 1 \\
+		2 & 3 & 1 & 1 & 2 & 1		& 2 \\
+		3 & 4 & 1 & 2 & 3 & 2		& 6 \\
+		4 & 5 & 1 & 3 & 4 & 6		& 24 \\
+		5 & 6 & 1 & 4 & 5 & 24		& 120 \\
+		6 & 7 & 1 & 5 & 6 & 120		& 720 \\
+		7 & 8 & 1 & 6 & 7 & 720		& 5040 \\
+		8 & 9 & 1 & 7 & 8 & 5040	& 40320 \\
+	\end{tabular}
+	\caption{Example of the algorithm with a normalized equidistant set of
+		measurements. $S_2$ and $P_2$ need to be initialized with $0$
+		and $1$ respectively.}
+\end{table}
+
+\lstinputlisting[language=python,caption=Python implementation of the calculation scheme]{implementation/x-demo.py}

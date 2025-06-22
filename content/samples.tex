@@ -1,0 +1,90 @@
+\section{Samples}
+This is an example document
+\lipsum[1-3]
+
+\clearpage
+\section{Images}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.6\textwidth]{placeholder}
+	\caption{Overview of the frames used}
+	\label{fig:placeholder}
+\end{figure}
+
+\begin{multicols}{2}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.45\textwidth,angle=90]{placeholder}
+		\caption{PCB design in 3D (top view)}
+		\label{fig:multicol:placeholder1}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.45\textwidth]{placeholder}
+		\caption{PCB design in 3D (bottom view)}
+		\label{fig:multicol:placeholder2}
+	\end{figure}
+\end{multicols}
+
+
+\section{Table}
+\begin{center}
+	\begin{tabular}{ | l | l | l | p{5cm} |}
+		\hline
+		Day & Min Temp & Max Temp & Summary \\ \hline
+		Monday & 11C & 22C & A clear day with lots of sunshine.  
+		However, the strong breeze will bring down the temperatures. \\ \hline
+		Tuesday & 9C & 19C & Cloudy with rain, across many northern regions. Clear spells 
+		across most of Scotland and Northern Ireland, 
+		but rain reaching the far northwest. \\ \hline
+		Wednesday & 10C & 21C & Rain will still linger for the morning. 
+		Conditions will improve by early afternoon and continue 
+		throughout the evening. \\
+		\hline
+	\end{tabular}
+\end{center}
+
+%\begin{center}
+%	\begin{tabular}{l|c}%
+%		\bfseries Person & \bfseries Matr.~No.% specify table head
+%		\csvreader[head to column names]{grade.csv}{}% use head of csv as column names
+%		{\\\hline\givenname\ \name & \matriculation}% specify your coloumns here
+%	\end{tabular}
+%\end{center}
+
+
+\section{Lists}
+\begin{itemize}
+	\item sample list item
+\end{itemize}
+
+\begin{enumerate}
+	\item sample list item
+\end{enumerate}
+
+\section{Code}
+\begin{lstlisting}
+touch --help
+nano --help
+mkdir --help
+\end{lstlisting}
+
+\lstinputlisting[language=C,caption=Sample C Code]{src/sampleCode.c}
+
+
+\section{Equations}
+This is an equation: $F = m \cdot a$
+
+Here are some more:
+\begin{align}
+	y &= mx + b \\
+	c^2 &= a^2 + b^2
+\end{align}
+
+and even more:
+\begin{align*}
+	y &= mx + b \\
+	c^2 &= a^2 + b^2
+\end{align*}
+
